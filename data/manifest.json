@@ -1,0 +1,70 @@
+{
+  "dataset_name": "Thai-PII-Synthetic",
+  "dataset_version": "v6.0.0",
+  "generator_version": "v6.0.0-tier2",
+  "generator_config_sha256": "b6f2a59c9b25b1cd8fbf92e9020c0f9132d7dc865f79d60f48a3e9aecafdcd0e",
+  "template_version": "v6.0.0",
+  "entity_pool_version": "v6.0.0",
+  "language": "th",
+  "license": "CC-BY-4.0",
+  "global_seed": 42,
+  "created_at_utc": "2026-10-29T13:34:31.066236+00:00",
+  "dataset_combined_sha256": "b42f8ff29b3c4b1cfa8376f58e4f2f620141d029af373ff9dfff3cf27642fc53",
+  "splits": {
+    "train": {
+      "samples": 16000,
+      "pure_negatives": 1600,
+      "total_entities": 48586,
+      "entity_distribution": {
+        "ADDRESS": 11130,
+        "NAME": 14827,
+        "PHONE": 9289,
+        "ID_CARD": 3282,
+        "EMAIL": 2805,
+        "BANK_ACC": 3983,
+        "BANK": 3270
+      },
+      "sha256": "359f9da13ff99228fd6019d2bcf3a6a27a60f2f9efd195a5192f37ddc59a0950"
+    },
+    "validation": {
+      "samples": 2000,
+      "pure_negatives": 200,
+      "total_entities": 6039,
+      "entity_distribution": {
+        "ADDRESS": 1382,
+        "PHONE": 1129,
+        "NAME": 1843,
+        "EMAIL": 356,
+        "ID_CARD": 397,
+        "BANK": 418,
+        "BANK_ACC": 514
+      },
+      "sha256": "254723ea019f9974fd1c4fa9c50ea6dd35af5526a794ee29f72e3e5027134ec5"
+    },
+    "test": {
+      "samples": 2000,
+      "pure_negatives": 200,
+      "total_entities": 6052,
+      "entity_distribution": {
+        "ADDRESS": 1390,
+        "PHONE": 1128,
+        "NAME": 1841,
+        "BANK": 410,
+        "BANK_ACC": 492,
+        "ID_CARD": 420,
+        "EMAIL": 371
+      },
+      "sha256": "51b04306a98100352249cdc1ba393bb0e5fb84d5f26e5bd6e831f6cc473fec87"
+    }
+  },
+  "quality_gate": {
+    "status": "PASSED",
+    "total_entities_checked": 60677,
+    "span_errors": 0,
+    "duplicate_count": 0,
+    "template_leakage": 0,
+    "name_leakage": 0,
+    "token_boundary_violations": 0,
+    "address_target_ge_20": true
+  }
+}

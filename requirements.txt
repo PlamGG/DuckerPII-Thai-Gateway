@@ -1,0 +1,5 @@
+datasets>=2.14.0
+huggingface_hub>=0.17.0
+pythainlp>=4.0.0
+pyyaml>=6.0
+pytest>=7.0.0

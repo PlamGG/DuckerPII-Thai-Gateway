@@ -1,0 +1,50 @@
+dataset_version: "v6.0.0"
+generator_version: "v6.0.0-tier2"
+template_version: "v6.0.0"
+entity_pool_version: "v6.0.0"
+global_seed: 42
+language: "th"
+license: "CC-BY-4.0"
+
+splits:
+  train:
+    pii_samples: 14400
+    pure_negatives: 1600
+  validation:
+    pii_samples: 1800
+    pure_negatives: 200
+  test:
+    pii_samples: 1800
+    pure_negatives: 200
+
+diversity:
+  name:
+    first_name_only_ratio: 0.15
+    nickname_ratio: 0.10
+    en_name_ratio: 0.06
+    no_space_ratio: 0.05
+    with_title_ratio: 0.45
+  bank_account:
+    dash_ratio: 0.60
+    space_ratio: 0.15
+    continuous_ratio: 0.25
+    allow_12_digits_ratio: 0.10
+  id_card:
+    dash_ratio: 0.50
+    space_ratio: 0.15
+    continuous_ratio: 0.35
+  phone:
+    dash_ratio: 0.35
+    space_ratio: 0.20
+    continuous_ratio: 0.25
+    plus66_ratio: 0.20
+  address:
+    short_address_ratio: 0.25
+  trigger_word_dropout: 0.50
+  hard_negatives:
+    injection_ratio: 0.30
+
+paths:
+  data_dir: "data"
+  manifest_path: "data/manifest.json"
+  reports_dir: "reports"

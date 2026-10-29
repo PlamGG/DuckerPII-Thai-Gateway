@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local Export & Caches
+data/hf_export/
+reports/*.tmp
+
+# Large Model Binaries (Hosted on Hugging Face Hub)
+models/wangchanberta-thai-pii/*.safetensors
+models/wangchanberta-thai-pii/tokenizer.json
+models/wangchanberta-thai-pii/*.bin
+*.pt
+
+# Internal logs, secrets & config
+.env
+*.log
+HANDOFF.md
+GEMINI.md
+upload_model_to_hf.py
+
+# OS-specific
+.DS_Store
+Thumbs.db

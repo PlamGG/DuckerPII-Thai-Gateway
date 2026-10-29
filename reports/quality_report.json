@@ -1,0 +1,63 @@
+{
+  "status": "PASSED",
+  "errors": [],
+  "warnings": [],
+  "checks": {
+    "span_integrity": {
+      "total_entities_checked": 60677,
+      "span_errors": 0,
+      "overlap_errors": 0,
+      "status": "PASSED"
+    },
+    "label_validity": {
+      "invalid_label_count": 0,
+      "status": "PASSED"
+    },
+    "duplicates": {
+      "duplicate_text_count": 0,
+      "status": "PASSED"
+    },
+    "split_leakage": {
+      "template_leakage_train_test": 0,
+      "name_leakage_train_test": 0,
+      "status": "PASSED"
+    },
+    "entity_distribution": {
+      "splits": {
+        "train": {
+          "total_entities": 48586,
+          "address_count": 11130,
+          "address_pct": 22.91
+        },
+        "validation": {
+          "total_entities": 6039,
+          "address_count": 1382,
+          "address_pct": 22.88
+        },
+        "test": {
+          "total_entities": 6052,
+          "address_count": 1390,
+          "address_pct": 22.97
+        }
+      },
+      "address_target_ge_20": true,
+      "status": "PASSED"
+    },
+    "pure_negatives": {
+      "pure_negatives_per_split": {
+        "train": 1600,
+        "validation": 200,
+        "test": 200
+      },
+      "status": "PASSED"
+    },
+    "token_boundary": {
+      "violations": 0,
+      "status": "PASSED"
+    },
+    "synthetic_realism_risk": {
+      "name_phone_combination_collisions": 0,
+      "status": "PASSED"
+    }
+  }
+}

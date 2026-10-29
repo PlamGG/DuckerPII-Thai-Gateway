@@ -1,0 +1,80 @@
+{
+  "benchmark": "Regex Baseline Robustness",
+  "clean_test_micro_f1": 0.5981,
+  "adversarial_test_micro_f1": 0.5975,
+  "f1_delta": -0.0006,
+  "clean_stats": {
+    "NAME": {
+      "tp": 527,
+      "fp": 185,
+      "fn": 1314
+    },
+    "ID_CARD": {
+      "tp": 359,
+      "fp": 87,
+      "fn": 61
+    },
+    "PHONE": {
+      "tp": 973,
+      "fp": 13,
+      "fn": 155
+    },
+    "EMAIL": {
+      "tp": 296,
+      "fp": 0,
+      "fn": 75
+    },
+    "BANK_ACC": {
+      "tp": 378,
+      "fp": 189,
+      "fn": 114
+    },
+    "BANK": {
+      "tp": 281,
+      "fp": 70,
+      "fn": 129
+    },
+    "ADDRESS": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 1390
+    }
+  },
+  "adversarial_stats": {
+    "NAME": {
+      "tp": 527,
+      "fp": 185,
+      "fn": 1314
+    },
+    "ID_CARD": {
+      "tp": 359,
+      "fp": 87,
+      "fn": 61
+    },
+    "PHONE": {
+      "tp": 973,
+      "fp": 13,
+      "fn": 155
+    },
+    "EMAIL": {
+      "tp": 292,
+      "fp": 4,
+      "fn": 79
+    },
+    "BANK_ACC": {
+      "tp": 380,
+      "fp": 189,
+      "fn": 112
+    },
+    "BANK": {
+      "tp": 281,
+      "fp": 70,
+      "fn": 129
+    },
+    "ADDRESS": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 1390
+    }
+  }
+}

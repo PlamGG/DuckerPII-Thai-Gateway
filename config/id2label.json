@@ -1,0 +1,17 @@
+{
+  "0": "O",
+  "1": "B-NAME",
+  "2": "I-NAME",
+  "3": "B-ID_CARD",
+  "4": "I-ID_CARD",
+  "5": "B-PHONE",
+  "6": "I-PHONE",
+  "7": "B-EMAIL",
+  "8": "I-EMAIL",
+  "9": "B-BANK_ACC",
+  "10": "I-BANK_ACC",
+  "11": "B-BANK",
+  "12": "I-BANK",
+  "13": "B-ADDRESS",
+  "14": "I-ADDRESS"
+}
