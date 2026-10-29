@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>DuckerPII: สถาปัตยกรรมไฮบริดแบบสองชั้นสำหรับการลบนิรนามข้อมูลส่วนบุคคลภาษาไทยที่มีความทนทานต่อข้อมูลรบกวน</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    @page {
+        size: A4;
+        margin: 20mm 18mm 22mm 18mm;
+        @bottom-center {
+            content: counter(page);
+            font-family: 'Sarabun', sans-serif;
+            font-size: 9.5pt;
+            color: #333333;
+        }
+    }
+
+    body {
+        font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #111111;
+        line-height: 1.5;
+        font-size: 9.5pt;
+        background: #FFFFFF;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Paper Title & Authors */
+    .paper-title {
+        font-size: 17pt;
+        font-weight: 800;
+        text-align: center;
+        margin: 0 0 12px 0;
+        line-height: 1.35;
+        color: #000000;
+    }
+
+    .paper-authors {
+        text-align: center;
+        font-size: 10.5pt;
+        margin-bottom: 4px;
+    }
+    .paper-authors b {
+        font-weight: 700;
+    }
+
+    .paper-affil {
+        text-align: center;
+        font-size: 9pt;
+        color: #444444;
+        margin-bottom: 22px;
+        line-height: 1.4;
+    }
+
+    /* Abstract Block */
+    .abstract-box {
+        width: 90%;
+        margin: 0 auto 24px auto;
+        padding: 0 10px;
+    }
+    .abstract-title {
+        text-align: center;
+        font-size: 10pt;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+    .abstract-text {
+        font-size: 9pt;
+        text-align: justify;
+        line-height: 1.45;
+        color: #222222;
+    }
+    .keywords {
+        font-size: 8.5pt;
+        margin-top: 8px;
+        color: #333333;
+    }
+
+    /* Two Column Layout */
+    .two-column {
+        column-count: 2;
+        column-gap: 7mm;
+        text-align: justify;
+    }
+
+    h2 {
+        font-size: 10.5pt;
+        font-weight: 800;
+        border-bottom: 0.5px solid #000000;
+        padding-bottom: 2px;
+        margin-top: 16px;
+        margin-bottom: 6px;
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    h3 {
+        font-size: 9.5pt;
+        font-weight: 700;
+        margin-top: 10px;
+        margin-bottom: 4px;
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 7px;
+        text-indent: 1.5em;
+    }
+    p.no-indent {
+        text-indent: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 8px 0 10px 0;
+        font-size: 8pt;
+        break-inside: avoid;
+    }
+    th {
+        border-top: 1.5px solid #000000;
+        border-bottom: 1px solid #000000;
+        font-weight: 700;
+        padding: 4px 3px;
+        text-align: left;
+    }
+    td {
+        padding: 3.5px 3px;
+        border-bottom: 0.5px solid #E2E8F0;
+    }
+    tr.border-bottom td {
+        border-bottom: 1.5px solid #000000;
+    }
+
+    .table-caption {
+        font-size: 8pt;
+        font-weight: 700;
+        margin-bottom: 3px;
+        text-align: left;
+    }
+
+    pre, code {
+        font-family: 'JetBrains Mono', Consolas, monospace;
+        font-size: 7pt;
+    }
+    pre {
+        background: #F8FAFC;
+        border: 1px solid #CBD5E1;
+        padding: 6px 8px;
+        border-radius: 4px;
+        overflow-x: hidden;
+        margin: 6px 0;
+        line-height: 1.3;
+        break-inside: avoid;
+    }
+
+    .equation {
+        text-align: center;
+        margin: 6px 0;
+        font-style: italic;
+        font-size: 8.5pt;
+    }
+
+    .figure-box {
+        width: 100%;
+        margin: 10px 0;
+        break-inside: avoid;
+        text-align: center;
+    }
+    .figure-box img {
+        width: 100%;
+        border: 1px solid #CCCCCC;
+        border-radius: 3px;
+    }
+    .figure-caption {
+        font-size: 8pt;
+        text-align: justify;
+        margin-top: 4px;
+        line-height: 1.3;
+    }
+    .figure-caption b {
+        font-weight: 700;
+    }
+
+    .reference-item {
+        font-size: 7.5pt;
+        line-height: 1.35;
+        margin-bottom: 4px;
+        text-indent: -1.5em;
+        padding-left: 1.5em;
+    }
+
+    .full-width {
+        column-span: all;
+    }
+</style>
+</head>
+<body>
+
+<!-- TITLE & AUTHORS (NO HEADER/NO TIME/NO ARXIV) -->
+<div class="paper-title">
+    DuckerPII: สถาปัตยกรรมไฮบริดแบบสองชั้นสำหรับการลบนิรนามข้อมูลส่วนบุคคลภาษาไทยที่มีความทนทานต่อข้อมูลรบกวน
+</div>
+
+<div class="paper-authors">
+    <b>DuckerMaster</b> &bull; <b>กลุ่มวิจัยระบบปัญญาประดิษฐ์แบบเปิด (Open Source Research Group)</b>
+</div>
+<div class="paper-affil">
+    ศูนย์วิจัยการประมวลผลภาษาธรรมชาติและความมั่นคงปลอดภัยทางปัญญาประดิษฐ์, กรุงเทพมหานคร<br>
+    ซอร์สโค้ด: <a href="https://github.com/PlamGG/DuckerPII-Thai-Gateway">github.com/PlamGG/DuckerPII-Thai-Gateway</a> &bull; โมเดล: <a href="https://huggingface.co/DuckerMaster/DuckerPII-Thai-Base">huggingface.co/DuckerMaster/DuckerPII-Thai-Base</a>
+</div>
+
+<!-- ABSTRACT -->
+<div class="abstract-box">
+    <div class="abstract-title">บทคัดย่อ (Abstract)</div>
+    <div class="abstract-text">
+        การนำโมเดลภาษาขนาดใหญ่ (LLMs) มาประยุกต์ใช้งานในระบบสนทนาอัตโนมัติระดับองค์กร ก่อให้เกิดความเสี่ยงสูงต่อการรั่วไหลของข้อมูลระบุตัวบุคคลภายใต้ พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) แม้ว่าตัวจำแนกโทเคนด้วยโครงข่ายประสาทเทียมจะให้ความแม่นยำสูงในชุดข้อมูลปิด แต่โมเดลมักเกิดปัญหาการจดจำทางลัด (Shortcut Memorization) ส่งผลให้ประสิทธิภาพลดลงอย่างรุนแรงเมื่อพบข้อความแชตแบบไม่มีคำนำหน้า คำสแลง หรือรหัสทางธุรกิจ บทความวิจัยนี้นำเสนอ <b>DuckerPII</b> ระบบเกตเวย์ความปลอดภัยสูงที่ใช้สถาปัตยกรรมไฮบริดแบบสองชั้น (Two-Tier Cascaded Hybrid Architecture) ร่วมกับการสร้างชุดข้อมูลสังเคราะห์ <b>Thai-PII-Synthetic (v6.0.0)</b> จำนวน 20,000 ประโยค โดยไม่ใช้ข้อมูลจริงของบุคคลใดตามหลักเทคโนโลยีเสริมสร้างความเป็นส่วนตัว (PETs) ซึ่งผสานการสุ่มตัดคำนำหน้า (Trigger Dropout 50%) การฝังรหัสลวงทางตัวเลข (Hard Numeric Traps 30%) และโครงสร้างที่อยู่สั้นแบบคนเมือง ในส่วนประมวลผล ชั้นที่ 1 ใช้โมเดล <i>DuckerPII-Thai-Base</i> สถาปัตยกรรม RoBERTa ทำหน้าที่สกัด Entity จากบริบท และชั้นที่ 2 ใช้ระบบตรวจสอบกฎเกณฑ์ทางคณิตศาสตร์แบบสัมบูรณ์ (Mod11 Checksum สำหรับเลขบัตรประชาชน, การตรวจคำนำหน้าเบอร์โทรศัพท์ และ RFC Validation สำหรับอีเมล) ผลการทดสอบเชิงประจักษ์พบว่าระบบมีค่า Macro F1 บนชุดทดสอบแบบไม่ซ้อนทับอยู่ที่ <b>0.9989</b> และมีความครอบคลุมบนข้อความแชตที่มีข้อมูลรบกวน (OOD Recall) สูงถึง <b>98.33%</b> โดยลดอัตราข้อมูลหลุดลง 3 เท่า (เหลือเพียง <b>1.67%</b>) ขณะที่ใช้เวลาประมวลผลบนซีพียูแกนเดี่ยวเฉลี่ยเพียง <b>~42 มิลลิวินาทีต่อข้อความ</b> (ค่ามัธยฐาน p50: 17.47 มิลลิวินาที)
+    </div>
+    <div class="keywords">
+        <b>คำสำคัญ:</b> การรู้จำเอนทิตีที่มีชื่อภาษาไทย, การปกป้องข้อมูลส่วนบุคคล, ข้อมูลสังเคราะห์, การตรวจสอบผลรวม Mod11, ความทนทานต่อข้อมูลรบกวน
+    </div>
+</div>
+
+<!-- TWO COLUMN BODY -->
+<div class="two-column">
+
+<h2>1. บทนำ (Introduction)</h2>
+<p class="no-indent">
+การเติบโตอย่างก้าวกระโดดของโมเดลภาษาขนาดใหญ่ (Large Language Models: LLMs) เช่น GPT-4o, Claude 3.5 และ Gemini 1.5 ส่งผลให้ภาคธุรกิจหันมาประยุกต์ใช้บริการผ่านคลาวด์เอพีไออย่างแพร่หลาย อย่างไรก็ดี ในบริบทของระบบสนับสนุนลูกค้าและพาณิชย์อิเล็กทรอนิกส์ ข้อความสนทนามักประกอบด้วยข้อมูลระบุตัวบุคคล (Personally Identifiable Information: PII) เช่น ชื่อ-นามสกุล เลขประจำตัวประชาชน เลขที่บัญชีธนาคาร และเบอร์โทรศัพท์
+</p>
+<p>
+ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) รวมถึงแนวปฏิบัติการคุ้มครองข้อมูลส่วนบุคคลเกี่ยวกับการพัฒนาและการใช้งานเทคโนโลยีปัญญาประดิษฐ์ (AI ฉบับ 1.0) โดยสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส. / PDPC) การส่งต่อข้อมูลดิบของผู้ใช้ไปยังเซิร์ฟเวอร์ภายนอกโดยไม่มีมาตรการลบนิรนาม (De-identification) จัดเป็นการละเมิดข้อกำหนดทางกฎหมายอย่างร้ายแรง
+</p>
+<p>
+อย่างไรก็ตาม การตรวจจับ PII ในภาษาไทยมีความซับซ้อนเฉพาะตัว 3 ประการหลัก:
+</p>
+<ol style="margin-top:2px; padding-left:14px; font-size:8pt;">
+    <li><b>ลักษณะภาษาที่ไม่มีการเว้นวรรคระหว่างคำ:</b> ทำให้การตัดคำผิดพลาดได้ง่ายและส่งผลต่อขอบเขตของ Entity (Boundary Mismatch)</li>
+    <li><b>ปัญหาการเรียนรู้ทางลัด (Shortcut Learning):</b> โมเดลมักจดจำเฉพาะคำนำหน้าตายตัว (เช่น "ชื่อ:", "โทร:") และไม่สามารถตรวจจับได้เมื่อผู้ใช้พิมพ์ข้อความแบบฟรีฟอร์ม</li>
+    <li><b>ความคลุมเครือของชุดตัวเลข:</b> เลขบัตรประชาชน 13 หลัก เบอร์โทรศัพท์ เลขที่บัญชี และรหัสพัสดุ มักถูกโมเดลจำแนกสับสนเนื่องจากมีลักษณะเป็นตัวเลขคล้ายคลึงกัน</li>
+</ol>
+<p>
+เพื่อแก้ปัญหาดังกล่าว งานวิจัยนี้จึงพัฒนา <b>DuckerPII</b> ระบบเกตเวย์ความปลอดภัยสูงที่รวมจุดแข็งของการเรียนรู้เชิงลึกและการตรวจสอบเชิงสัญลักษณ์เข้าด้วยกัน
+</p>
+
+<h2>2. ชุดข้อมูลสังเคราะห์ Thai-PII-Synthetic (v6)</h2>
+<p class="no-indent">
+การเก็บรวบรวมข้อมูลส่วนบุคคลจริงเพื่อนำมาเทรนโมเดลขัดต่อหลักการคุ้มครองข้อมูลส่วนบุคคลตั้งแต่เริ่มต้น ชุดข้อมูล <b>Thai-PII-Synthetic v6.0.0</b> (20,000 ประโยค, 60,677 Entities) จึงถูกสร้างขึ้นด้วยอัลกอริทึมสังเคราะห์ 100% ตามแนวทางเทคโนโลยีเสริมสร้างความเป็นส่วนตัว (PETs) ภายใต้ 4 เสาหลักทางวิศวกรรมข้อมูล:
+</p>
+<p>
+<b>1. การสุ่มตัดคำนำหน้า (Trigger Word Dropout 50%):</b> สุ่มตัดคำบอกประเภท เช่น <i>"เบอร์โทร:"</i> หรือ <i>"ที่อยู่จัดส่ง:"</i> ออกด้วยความน่าจะเป็น 0.5 เพื่อบังคับให้โมเดลพิจารณาจากบริบทแวดล้อม
+</p>
+<p>
+<b>2. การฝังรหัสลวงทางตัวเลข (Hard Numeric Traps 30%):</b> สุ่มแทรกรหัสพัสดุ (เช่น <code>TH01928374</code>), รหัสคำสั่งซื้อ (<code>#ORD-918237</code>) และบาร์โค้ดสินค้า โดยกำหนดป้ายกำกับเป็น <code>O</code> (ไม่ใช่ PII) เพื่อสอนให้โมเดลแยกแยะชุดตัวเลขธุรกิจออกจากข้อมูลส่วนบุคคล
+</p>
+<p>
+<b>3. การจำลองที่อยู่สั้นแบบคนเมือง (Fragmented Topography):</b> ข้อความสนทนาจริงมักไม่ระบุโครงสร้าง ตำบล/อำเภอ/จังหวัด ครบถ้วน เราจึงเพิ่มที่อยู่สั้น เช่น ชื่ออาคาร คอนโดมิเนียม และแลนด์มาร์กโดยไม่มีรหัสไปรษณีย์
+</p>
+<p>
+<b>4. การแยกขาดของโครงสร้างภาษา (Disjoint Splits):</b> ชุดข้อมูล Train (16k), Validation (2k) และ Held-out Test (2k) ถูกแยกขาดจากกันด้วยคลังคำศัพท์และแม่แบบไวยากรณ์ที่มีการทับซ้อนเป็น <b>0% (Zero Overlap)</b>
+</p>
+
+<div class="table-caption">ตารางที่ 1: การกระจายตัวของ Entity ในชุดข้อมูลสังเคราะห์ v6.0.0</div>
+<table>
+    <thead>
+        <tr>
+            <th>หมวดหมู่ Entity</th>
+            <th>Train</th>
+            <th>Val</th>
+            <th>Test</th>
+            <th>รวม</th>
+            <th>สัดส่วน</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>NAME</code></td>
+            <td>14,827</td>
+            <td>1,843</td>
+            <td>1,841</td>
+            <td>18,511</td>
+            <td>30.51%</td>
+        </tr>
+        <tr>
+            <td><code>ADDRESS</code></td>
+            <td>11,130</td>
+            <td>1,382</td>
+            <td>1,390</td>
+            <td>13,902</td>
+            <td>22.91%</td>
+        </tr>
+        <tr>
+            <td><code>PHONE</code></td>
+            <td>9,289</td>
+            <td>1,129</td>
+            <td>1,128</td>
+            <td>11,546</td>
+            <td>19.03%</td>
+        </tr>
+        <tr>
+            <td><code>BANK_ACC</code></td>
+            <td>3,983</td>
+            <td>514</td>
+            <td>492</td>
+            <td>4,989</td>
+            <td>8.22%</td>
+        </tr>
+        <tr>
+            <td><code>BANK</code></td>
+            <td>3,270</td>
+            <td>418</td>
+            <td>410</td>
+            <td>4,098</td>
+            <td>6.75%</td>
+        </tr>
+        <tr>
+            <td><code>ID_CARD</code></td>
+            <td>3,282</td>
+            <td>397</td>
+            <td>420</td>
+            <td>4,099</td>
+            <td>6.76%</td>
+        </tr>
+        <tr>
+            <td><code>EMAIL</code></td>
+            <td>2,805</td>
+            <td>356</td>
+            <td>371</td>
+            <td>3,532</td>
+            <td>5.82%</td>
+        </tr>
+        <tr class="border-bottom">
+            <td><b>รวมทั้งสิ้น</b></td>
+            <td><b>48,586</b></td>
+            <td><b>6,039</b></td>
+            <td><b>6,052</b></td>
+            <td><b>60,677</b></td>
+            <td><b>100%</b></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>3. สถาปัตยกรรมระบบไฮบริด (Hybrid Architecture)</h2>
+<p class="no-indent">
+DuckerPII ใช้สถาปัตยกรรมแบบสองชั้น (Cascaded Hybrid) โดยอาศัยความยืดหยุ่นในการจับบริบทของโมเดลโครงข่ายประสาทเทียมในชั้นแรก และใช้กฎทางคณิตศาสตร์ตรวจสอบความถูกต้องในชั้นที่สอง:
+</p>
+
+<h3>3.1 ชั้นที่ 1: การจำแนกโทเคนเชิงบริบท</h3>
+<p class="no-indent">
+ข้อความนำเข้า <i>X = (c<sub>1</sub>, c<sub>2</sub>, ..., c<sub>N</sub>)</i> จะถูกแปลงเป็นโทเคนย่อย <i>T = (t<sub>1</sub>, ..., t<sub>M</sub>)</i> ผ่าน SentencePiece Tokenizer โดยใช้โมเดล <i>DuckerPII-Thai-Base</i> สถาปัตยกรรม RoBERTa ขนาด 110 ล้านพารามิเตอร์ ทำหน้าที่สกัดเวกเตอร์แทนความหมาย:
+</p>
+<div class="equation">
+    <b>H</b> = RoBERTa(<i>T</i>) &isin; &Ropf;<sup><i>M</i> &times; 768</sup>
+</div>
+<div class="equation">
+    <i>P</i>(<i>y<sub>i</sub></i> = <i>c</i> | <i>T</i>) = softmax(<b>W</b><sub><i>c</i></sub> <b>h</b><sub><i>i</i></sub> + <i>b<sub>c</sub></i>)
+</div>
+<p>
+โมเดลทำนายป้ายกำกับตามโครงสร้าง IOB2 จำนวน 15 สถานะ (7 หมวดหมู่ PII &times; 2 รวมถึงคลาส <code>O</code>)
+</p>
+
+<h3>3.2 ชั้นที่ 2: ระบบตรวจสอบกฎเกณฑ์ทางคณิตศาสตร์</h3>
+<p class="no-indent">
+ช่วงคำที่ตรวจพบจากชั้นที่ 1 จะต้องผ่านการคัดกรองในชั้นที่ 2 ก่อนส่งมอบผลลัพธ์:
+</p>
+<p>
+<b>1. การตรวจสอบเลขบัตรประชาชนด้วยสูตร Mod11:</b> เลขประจำตัวประชาชน 13 หลักต้องผ่านสูตรถ่วงน้ำหนักตามสูตรคณิตศาสตร์ทางการ:
+</p>
+<div class="equation">
+    (&sum;<sub><i>i</i>=1</sub><sup>12</sup> <i>d<sub>i</sub></i> &times; (14 &minus; <i>i</i>)) mod 11 = <i>r</i>
+</div>
+<div class="equation">
+    <i>d</i><sub>13</sub> = (11 &minus; <i>r</i>) mod 10
+</div>
+<p>
+หากไม่ผ่านเงื่อนไข ระบบจะลดระดับเป็นข้อสงสัย (Suspected) หรือตัดออกทันที
+</p>
+<p>
+<b>2. การตรวจสอบคำนำหน้าเบอร์โทรศัพท์:</b> ตรวจสอบกับหมวดเลขหมายที่ได้รับการจัดสรรจริงจาก กสทช. (เช่น 06, 08, 09 หรือ +66)
+</p>
+<p>
+<b>3. การตรวจรูปแบบอีเมลแบบเต็มคำ (RFC Validation):</b> ตัดปัญหาการจำแนกรหัสพัสดุผิดเป็นอีเมล
+</p>
+<p>
+<b>4. การคัดกรองคำนำหน้าซ้อนและตัวเลขปนในชื่อ:</b> แก้ไขข้อผิดพลาดของคำนำหน้าชื่อ และตัดคำศัพท์ทางธุรกิจภาษาอังกฤษออกจากชื่อบุคคล
+</p>
+
+<h2>4. ผลการทดสอบเชิงประจักษ์ (Evaluation)</h2>
+<p class="no-indent">
+เราเปรียบเทียบประสิทธิภาพของ <b>DuckerPII-Thai-Base</b> กับระบบฐาน (Regex Baseline) บนชุดทดสอบ Held-out Test และชุดทดสอบแชตแบบมีข้อมูลรบกวน (OOD Noisy Chat)
+</p>
+
+<div class="table-caption">ตารางที่ 2: การเปรียบเทียบผลลัพธ์บนชุดทดสอบ Held-out Test</div>
+<table>
+    <thead>
+        <tr>
+            <th>เกณฑ์การวัดผล</th>
+            <th>Regex Base</th>
+            <th>DuckerPII</th>
+            <th>ผลลัพธ์ที่พัฒนาขึ้น</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Macro Precision</td>
+            <td>0.7142</td>
+            <td><b>0.9989</b></td>
+            <td>+28.47%</td>
+        </tr>
+        <tr>
+            <td>Macro Recall</td>
+            <td>0.6079</td>
+            <td><b>0.9989</b></td>
+            <td>+39.10%</td>
+        </tr>
+        <tr>
+            <td>Macro F1-Score</td>
+            <td>0.6432</td>
+            <td><b>0.9989</b></td>
+            <td>+35.57%</td>
+        </tr>
+        <tr>
+            <td>Micro F1-Score</td>
+            <td>0.5981</td>
+            <td><b>0.9989</b></td>
+            <td>+40.08%</td>
+        </tr>
+        <tr>
+            <td>OOD Chat Recall</td>
+            <td>0.4210</td>
+            <td><b>98.33%</b></td>
+            <td>+56.23%</td>
+        </tr>
+        <tr>
+            <td>OOD Span Leak</td>
+            <td>57.90%</td>
+            <td><b>1.67%</b></td>
+            <td>-56.23% (ลดลง 3 เท่า)</td>
+        </tr>
+        <tr class="border-bottom">
+            <td>ความเร็วประมวลผล</td>
+            <td>&lt; 1 ms</td>
+            <td><b>~42 ms</b></td>
+            <td>รองรับแบบเรียลไทม์</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+จากตารางที่ 2 ระบบที่ใช้ Regular Expression เพียงอย่างเดียวล้มเหลวโดยสิ้นเชิงในหมวด <code>ADDRESS</code> (Recall 0.00%) และมีความครอบคลุมในหมวด <code>NAME</code> เพียง 28.63% เนื่องจากไม่เข้าใจบริบทที่ไม่มีคำนำหน้า ขณะที่ DuckerPII ให้ความแม่นยำสูงทุกหมวดหมู่ และยังคงความสามารถในการตรวจจับบนข้อความแชตรบกวนได้สูงถึง 98.33%
+</p>
+
+<div class="figure-box full-width">
+    <img src="final_dashboard.png" alt="12-Step Validation Harness">
+    <div class="figure-caption">
+        <b>รูปที่ 1: แผงแสดงผลการทดสอบระบบ 12 ขั้นตอนจากการเทรนจริงบน Kaggle</b> (บนซ้าย) กราฟการลู่เข้าของ Cross-Entropy Loss (บนขวา) การพัฒนาของค่า Macro F1 ในแต่ละ Epoch (ล่างซ้าย) Normalized Multi-Class Confusion Matrix แสดงการแยกแยะป้ายกำกับทั้ง 7 คลาสอย่างแม่นยำ และ (ล่างขวา) การกระจายตัวของ Entity ที่มีความสมดุล
+    </div>
+</div>
+
+<h2>5. การประเมินความเร็วในการทำงาน (Latency)</h2>
+<p class="no-indent">
+เกตเวย์ความปลอดภัยจำเป็นต้องมีเวลาประมวลผลต่ำกว่า 50 มิลลิวินาที เพื่อไม่ให้กระทบต่อประสบการณ์ของผู้ใช้งาน จากการทดสอบบนซีพียูแกนเดี่ยวมาตรฐาน:
+</p>
+<ul>
+    <li><b>ค่ามัธยฐาน p50:</b> 17.47 มิลลิวินาที</li>
+    <li><b>เปอร์เซ็นไทล์ที่ 95 (p95):</b> 38.12 มิลลิวินาที</li>
+    <li><b>เปอร์เซ็นไทล์ที่ 99 (p99):</b> 44.80 มิลลิวินาที</li>
+</ul>
+<p>
+ขนาดไฟล์โมเดลที่กะทัดรัด (~418 เมกะไบต์) ช่วยให้สามารถนำไปติดตั้งในสถาปัตยกรรมแบบ Serverless หรือคอนเทนเนอร์ขนาดเล็กบนซีพียูทั่วไปได้ โดยไม่จำเป็นต้องใช้การ์ดจอเฉพาะทางที่มีต้นทุนสูง
+</p>
+
+<h2>6. จริยธรรมปัญญาประดิษฐ์ (Responsible AI)</h2>
+<p class="no-indent">
+โครงการนี้ปฏิบัติตามแนวปฏิบัติ AI ฉบับ 1.0 ของ สคส. (PDPC) และมาตรฐาน NIST SP 800-122 อย่างเคร่งครัด:
+</p>
+<p>
+<b>การใช้ข้อมูลสังเคราะห์โดยสมบูรณ์:</b> ไม่มีการนำเข้า ประมวลผล หรือเผยแพร่ข้อมูลของบุคคลที่มีชีวิตอยู่จริง ข้อมูลชื่อและสถานที่มาจากการสุ่มประกอบคำแบบอิสระ
+</p>
+<p>
+<b>การป้องกันการนำไปใช้ในทางที่ผิด (Dual-Use Prevention):</b> แม้ตัวเลขที่สร้างขึ้นจะสอดคล้องกับไวยากรณ์ตรวจสอบ แต่ไม่มีความเชื่อมโยงกับฐานข้อมูลทะเบียนราษฎร์จริง การนำไปใช้เพื่อการหลอกลวง การสร้างโปรไฟล์บุคคล หรือการโจรกรรมข้อมูลถือเป็นข้อห้ามเด็ดขาดภายใต้สัญญาอนุญาตของโครงการ
+</p>
+
+<h2>7. สรุปผล (Conclusion)</h2>
+<p class="no-indent">
+งานวิจัยนี้ได้นำเสนอ <b>DuckerPII</b> ระบบเกตเวย์ความปลอดภัยสำหรับการลบนิรนามข้อมูลส่วนบุคคลภาษาไทย การผสานวิศวกรรมข้อมูลสังเคราะห์ <i>Thai-PII-Synthetic (v6.0.0)</i> เข้ากับสถาปัตยกรรมไฮบริดแบบสองชั้น ช่วยแก้ปัญหาการจำทางลัดได้อย่างมีประสิทธิภาพ พร้อมส่งมอบความเร็วระดับพร้อมใช้งานจริงในภาคอุตสาหกรรม โค้ดต้นฉบับ น้ำหนักโมเดล และระบบเดโมจำลองแชต LINE ได้รับการเผยแพร่แบบโอเพนซอร์สเพื่อสนับสนุนการพัฒนาปัญญาประดิษฐ์ที่ปลอดภัยในประเทศไทย
+</p>
+
+<h2>เอกสารอ้างอิง (References)</h2>
+<div class="reference-item">
+    [1] สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส.). 2567. <i>แนวปฏิบัติการคุ้มครองข้อมูลส่วนบุคคลเกี่ยวกับการพัฒนาและการใช้งานเทคโนโลยีปัญญาประดิษฐ์ (AI ฉบับ 1.0)</i>. กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม, กรุงเทพมหานคร.
+</div>
+<div class="reference-item">
+    [2] McCallister, E., Grance, T., and Scarfone, K. 2010. <i>Guide to Protecting the Confidentiality of Personally Identifiable Information (PII)</i>. NIST Special Publication 800-122, National Institute of Standards and Technology.
+</div>
+<div class="reference-item">
+    [3] Pipatanakul, K., Jirabovonvisut, P., Manakul, P., et al. 2023. <i>Typhoon: Thai Large Language Models</i>. arXiv preprint arXiv:2312.13951.
+</div>
+<div class="reference-item">
+    [4] Article 29 Data Protection Working Party. 2014. <i>Opinion 05/2014 on Anonymisation Techniques (WP216)</i>. European Commission.
+</div>
+<div class="reference-item">
+    [5] Lowphansirikul, L., Polpanumas, C., Jantrakulchai, N., and Vateekul, P. 2021. <i>WangchanBERTa: Pretrained language model for Thai multi-task natural language understanding</i>. arXiv preprint arXiv:2101.09635.
+</div>
+<div class="reference-item">
+    [6] Savkin, M., Ionov, T., and Konovalov, V. 2025. <i>SPY: Enhancing Privacy with Synthetic PII Detection Dataset</i>. In Proceedings of the NAACL 2025 Student Research Workshop, pages 236–246.
+</div>
+
+</div>
+
+</body>
+</html>
