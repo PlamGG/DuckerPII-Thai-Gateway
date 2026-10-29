@@ -28,3 +28,6 @@ upload_model_to_hf.py
 # OS-specific
 .DS_Store
 Thumbs.db
+
+docs/
+
