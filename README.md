@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌪️ DuckerPII: High-Performance Thai PII De-Identification & Privacy Gateway
+# DuckerPII: High-Performance Thai PII De-Identification & Privacy Gateway
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Hugging Face Model](https://img.shields.io/badge/Hugging%20Face-Model-yellow)](https://huggingface.co/DuckerMaster/DuckerPII-Thai-Base)
@@ -26,7 +26,7 @@
 
 ---
 
-## 📢 News
+## News
 
 * **[October 2026]** Released **DuckerPII-Thai-Base** model weights and **Thai-PII-Synthetic (v6.0.0)** dataset on Hugging Face Hub!
 * **[October 2026]** Launched the interactive **LINE Chat Simulator & Privacy Gateway** demo on [Hugging Face Spaces](https://huggingface.co/spaces/DuckerMaster/DuckerPII-Thai-Gateway).
@@ -34,7 +34,7 @@
 
 ---
 
-## 📖 Model Description
+## Model Description
 
 * **Model Type:** Token Classification / Named Entity Recognition (NER)
 * **Underlying Architecture:** RoBERTa contextual subword encoder (WangchanBERTa-base fine-tuned)
@@ -47,7 +47,7 @@
 
 ---
 
-## 📊 Benchmark Results
+## Benchmark Results
 
 ### 1. In-Domain & Out-of-Distribution (OOD) Performance
 
@@ -84,7 +84,7 @@ The complete 12-step validation harness executed on Kaggle demonstrates training
 
 ---
 
-## ⚡ Quickstart
+## Quickstart
 
 ### Installation
 
@@ -150,7 +150,7 @@ print("Masked   :", masked_text)
 
 ---
 
-## 🏗️ System Architecture (ThaiPIIGateway)
+## System Architecture (ThaiPIIGateway)
 
 DuckerPII adopts a **Two-Tier Cascaded Hybrid Architecture** combining the generalization capability of a deep neural transformer with deterministic safety gates:
 
@@ -183,7 +183,7 @@ DuckerPII adopts a **Two-Tier Cascaded Hybrid Architecture** combining the gener
 
 ---
 
-## 🔒 Safety, Limitations & Ethical Use
+## Safety, Limitations & Ethical Use
 
 * **100% Synthetic Data Invariant:** Trained exclusively on synthetic data created under Privacy Enhancing Technologies (PETs) guidelines. No personal identities of real living individuals were scraped or included.
 * **Intended Use:** Designed strictly for **privacy protection, log masking, and pre-LLM data de-identification**.
@@ -191,12 +191,12 @@ DuckerPII adopts a **Two-Tier Cascaded Hybrid Architecture** combining the gener
 
 ---
 
-## 👥 DuckerPII Team & Maintainers
+## DuckerPII Team & Maintainers
 Developed and maintained by **DuckerMaster**. For technical inquiries, enterprise integration guidelines, or vulnerability disclosures, please open an issue or pull request.
 
 ---
 
-## 📜 Citation
+## Citation
 
 If you find **DuckerPII** useful in your research or business applications, please cite:
 
